@@ -31,7 +31,9 @@
 
                     @forelse ($projects as $project)
                         <tr class="table-dark">
+
                             <td scope="row">{{ $project->id }}</td>
+
                             <td>
                                 @if (Str::startsWith($project->cover_image, 'https://'))
                                     <img loading='lazy' width="120px" src="{{ $project->cover_image }}" alt="">
@@ -40,23 +42,34 @@
                                         alt="">
                                 @endif
                             </td>
+
                             <td>{{ $project->name }}</td>
+
                             <td>
                                 <a href="{{ $project->project_url }}" target="__blank">Previw</a>
                             </td>
+
                             <td>
                                 <a href="{{ $project->source_code_url }}" target="__blank">Source code</a>
                             </td>
+
                             <td>
+
                                 <a class="btn btn-primary btn-sm" href="{{ route('admin.projects.show', $project) }}">
                                     <i class="fas fa-eye fa-xs fa-fw"></i> View
                                 </a>
+
                                 <a class="btn btn-secondary btn-sm" href="{{ route('admin.projects.edit', $project) }}">
                                     <i class="fas fa-pencil fa-xs fa-fw"></i> Edit
                                 </a>
+
+                                @include('admin.projects.partials.delete-modal')
+
+
                                 {{-- <i class="fas fa-trash fa-xs fa-fw"></i> --}}
-                                Delete
+                                {{-- Delete --}}
                             </td>
+
                         </tr>
                     @empty
 

@@ -6,8 +6,8 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -99,6 +99,13 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        if ($project->cover_image && !Str::startsWith($project->cover_image, 'https://')) {
+
+            Storage::delete($project->cover_image);
+        }
+
+        $project->delete();
+
+        return to_route('admin.projects.index')->with('message', 'Project deleted correctly!!');
     }
 }
