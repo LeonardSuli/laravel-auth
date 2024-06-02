@@ -1,50 +1,34 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="jumbotron p-5 mb-4 bg-light rounded-3">
+    <div class="p-5 mb-4 bg-primary rounded-3">
         <div class="container py-5">
-
-            <div class="row">
-
-                <div class="col-auto">
-                    <div class="profile">
-                        <img width="200" class="img-fluid rounded-4" src="/img/leo.jpg" alt="">
-                    </div>
-                </div>
-
-                <div class="col">
-
-                    <h1 class="display-5 fw-bold">
-                        My Boolfolio
-                    </h1>
-
-                    <p class="col-md-8 fs-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis minima amet
-                        placeat provident velit distinctio rem maiores commodi quod perferendis.
-                    </p>
-
-                    <a href="{{ route('guests.projects.index') }}" class="btn btn-primary btn-lg" type="button">Check my
-                        project!
-                    </a>
-
-                </div>
-            </div>
-
+            <h1 class="display-5 fw-bold">My projects</h1>
+            <p class="col-md-8 fs-4">
+                Using a series of utilities, you can create this jumbotron, just
+                like the one in previous versions of Bootstrap. Check out the
+                examples below for how you can remix and restyle it to your liking.
+            </p>
+            <a href="#projects" class="btn btn-outline-light">
+                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            </a>
         </div>
     </div>
 
-    <div class="content">
+
+    <div class="content" id="projects">
         <div class="container">
             <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora temporibus, dicta nemo aliquam totam nisi
                 deserunt soluta quas voluptatum ab beatae praesentium necessitatibus minus, facilis illum rerum officiis
                 accusamus dolores!
             </p>
 
-            <div class="row">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
 
                 @forelse ($projects as $project)
                     <div class="col">
 
-                        <div class="card">
+                        <div class="card h-100">
 
                             @if (Str::startsWith($project->cover_image, 'https://'))
                                 <img loading='lazy' width="100%" src="{{ $project->cover_image }}" alt="">

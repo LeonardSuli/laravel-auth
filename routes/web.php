@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Models\Project;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +19,18 @@ use App\Http\Controllers\Admin\DashboardController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', ['projects' => Project::orderByDesc('id')->take(3)->get()]);
 });
+
+Route::get('projects', function () {
+    return view('guests.projects.index', ['projects' => Project::orderByDesc('id')->paginate(9)]);
+})->name('guests.projects.index');
+
+Route::get('projects/{project}', function (Project $project) {
+    return view('guests.projects.show', compact('project'));
+})->name('guests.projects.show');
+
+
 
 Route::middleware(['auth', 'verified'])
     ->name('admin.')
