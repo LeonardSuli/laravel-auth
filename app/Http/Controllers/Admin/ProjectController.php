@@ -21,6 +21,9 @@ class ProjectController extends Controller
         return view('admin.projects.index', ['projects' => Project::orderByDesc('id')->paginate(8)]);
     }
 
+
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -28,6 +31,10 @@ class ProjectController extends Controller
     {
         return view('admin.projects.create');
     }
+
+
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -38,7 +45,10 @@ class ProjectController extends Controller
 
         $validated = $request->validated();
 
-        $validated['cover_image'] = Storage::put('uploads', $request->cover_image);
+        if ($request->has('cover_image')) {
+
+            $validated['cover_image'] = Storage::put('uploads', $request->cover_image);
+        }
 
         // dd($validated);
 
@@ -46,6 +56,10 @@ class ProjectController extends Controller
 
         return to_route('admin.projects.index')->with('message', 'Project added correctly!!');
     }
+
+
+
+
 
     /**
      * Display the specified resource.
@@ -55,6 +69,10 @@ class ProjectController extends Controller
         return view('admin.projects.show', compact('project'));
     }
 
+
+
+
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -62,6 +80,10 @@ class ProjectController extends Controller
     {
         return view('admin.projects.edit', compact('project'));
     }
+
+
+
+
 
     /**
      * Update the specified resource in storage.
@@ -93,6 +115,10 @@ class ProjectController extends Controller
 
         return to_route('admin.projects.index')->with('message', 'Project updated correctly!!');
     }
+
+
+
+
 
     /**
      * Remove the specified resource from storage.
