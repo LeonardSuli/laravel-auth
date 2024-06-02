@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
@@ -59,7 +60,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('admin.projects.edit', compact('project'));
     }
 
     /**
@@ -67,7 +68,30 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        // dd($request->all());
+
+        // validate inputs
+        $validated = $request->validated();
+
+        // aggiorno la cover_image
+        if ($request->has('cover_image')) {
+
+            if ($project->cover_image) {
+
+                Storage::delete($project->cover_image);
+            }
+
+            $image_path = Storage::put('uploads', $request->cover_image);
+
+            $validated['cover_image'] = $image_path;
+        }
+
+        // dd($validated);
+
+        // Aggiorno modello
+        $project->update($validated);
+
+        return to_route('admin.projects.index')->with('message', 'Project updated correctly!!');
     }
 
     /**
