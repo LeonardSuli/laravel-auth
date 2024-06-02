@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -24,7 +25,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.projects.create');
     }
 
     /**
@@ -32,7 +33,17 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+        // dd($request->all());
+
+        $validated = $request->validated();
+
+        $validated['cover_image'] = Storage::put('uploads', $request->cover_image);
+
+        // dd($validated);
+
+        Project::create($validated);
+
+        return to_route('admin.projects.index')->with('message', 'Project added correctly!!');
     }
 
     /**
