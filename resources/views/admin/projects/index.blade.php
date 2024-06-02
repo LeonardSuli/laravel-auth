@@ -45,11 +45,13 @@
                             </td>
                             <td>
                                 <a class="btn btn-primary btn-sm" href="{{ route('admin.projects.show', $project) }}">
-                                    <i class="fas fa-eye fa-xs fa-fw"></i>View
+                                    <i class="fas fa-eye fa-xs fa-fw"></i> View
                                 </a>
-                                {{-- <i class="fas fa-pencil fa-xs fa-fw"></i> --}}
+                                <a class="btn btn-secondary btn-sm" href="{{ route('admin.projects.edit', $project) }}">
+                                    <i class="fas fa-pencil fa-xs fa-fw"></i> Edit
+                                </a>
                                 {{-- <i class="fas fa-trash fa-xs fa-fw"></i> --}}
-                                Edit Delete
+                                Delete
                             </td>
                         </tr>
                     @empty
