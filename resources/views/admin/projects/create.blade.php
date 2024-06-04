@@ -28,6 +28,21 @@
             </div>
 
             <div class="mb-3">
+                <label for="type_id" class="form-label">Project Type</label>
+                <select class="form-select" name="type_id" id="type_id">
+
+                    <option selected disabled>Select one</option>
+
+                    @foreach ($types as $type)
+                        <option value="{{ $type->id }}" {{ old('type_id') == $type->id ? 'selected' : '' }}>
+                            {{ $type->name }}</option>
+                    @endforeach
+
+                </select>
+            </div>
+
+
+            <div class="mb-3">
                 <label for="cover_image" class="form-label">Choose file</label>
                 <input type="file" class="form-control" name="cover_image" id="cover_image" placeholder="Choose a file"
                     aria-describedby="cover_imageHelper" />

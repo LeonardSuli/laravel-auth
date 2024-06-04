@@ -10,7 +10,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'cover_image', 'project_url', 'source_code_url', 'description'];
+    protected $fillable = ['name', 'cover_image', 'project_url', 'source_code_url', 'description', 'type_id'];
 
     /**
      * Get the type that owns the Project

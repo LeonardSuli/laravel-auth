@@ -24,14 +24,24 @@
 
             <div class="col">
 
-                <h3><strong>Project name: </strong> {{ $project->name }}</h3>
+                <h3>
+                    <strong>Project name: </strong> {{ $project->name }}
+                </h3>
 
-                <p class="my-4"><strong>Description: </strong> {{ $project->description }}</p>
+                <div>
+                    <strong>Category: </strong> {{ $project->type?->name }}
+                </div>
+
+                <p class="my-4">
+                    <strong>Description: </strong> {{ $project->description }}
+                </p>
 
                 <div class="links">
+
                     <a class="btn btn-primary" href="{{ $project->source_code_url }}" role="button">
                         <i class="fas fa-link fa-sm fa-fw"></i> Source Code
                     </a>
+
                     <a class="btn btn-primary" href="{{ $project->project_url }}" role="button">
                         <i class="fas fa-link fa-sm fa-fw"></i> URL
                     </a>
