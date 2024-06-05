@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Technology;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Type;
@@ -19,7 +20,7 @@ class ProjectController extends Controller
     {
         // dd(Project::all());
 
-        return view('admin.projects.index', ['projects' => Project::orderByDesc('id')->paginate(8)]);
+        return view('admin.projects.index', ['projects' => Project::orderByDesc('id')->paginate(10)]);
     }
 
 
@@ -31,8 +32,9 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
+        $technologies = Technology::all();
 
-        return view('admin.projects.create', compact('types'));
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
 
@@ -55,7 +57,12 @@ class ProjectController extends Controller
 
         // dd($validated);
 
-        Project::create($validated);
+        $project = Project::create($validated);
+
+        if ($request->has('technologies')) {
+
+            $project->technologies()->attach($validated['technologies']);
+        }
 
         return to_route('admin.projects.index')->with('message', 'Project added correctly!!');
     }
@@ -82,8 +89,9 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
+        $technologies = Technology::all();
 
-        return view('admin.projects.edit', compact('project', 'types'));
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
 
@@ -118,6 +126,11 @@ class ProjectController extends Controller
         // Aggiorno modello
         $project->update($validated);
 
+        if ($request->has('technologies')) {
+
+            $project->technologies()->sync($validated['technologies']);
+        }
+
         return to_route('admin.projects.index')->with('message', 'Project updated correctly!!');
     }
 
@@ -130,6 +143,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        // Da fare solo se non c'è 'cascadeOnDelete' nella migrations
+        // $project->technologies()->detach();
+
         if ($project->cover_image && !Str::startsWith($project->cover_image, 'https://')) {
 
             Storage::delete($project->cover_image);

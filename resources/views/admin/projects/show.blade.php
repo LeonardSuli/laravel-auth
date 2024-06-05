@@ -28,9 +28,24 @@
                     <strong>Project name: </strong> {{ $project->name }}
                 </h3>
 
-                <div>
-                    <strong>Category: </strong> {{ $project->type?->name }}
+                <div class="metadata">
+                    <strong>Category: </strong> {{ $project->type ? $project->type->name : 'N/A' }}
+
+                    <div class="technologies d-flex gap-2">
+
+                        <strong>Technologies: </strong>
+
+                        @forelse ($project->technologies as $technology)
+                            <span class="badge bg-primary">{{ $technology->name }}</span>
+
+                        @empty
+
+                            <span>N/A</span>
+                        @endforelse
+                    </div>
+
                 </div>
+
 
                 <p class="my-4">
                     <strong>Description: </strong> {{ $project->description }}
